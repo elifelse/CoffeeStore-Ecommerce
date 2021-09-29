@@ -16,7 +16,6 @@ namespace ApplicationCore.Entities
         public string ProductSKU { get; set; }
         public int ProductStock { get; set; }
         public string PictureUri { get; set; }
-        public int MyProperty { get; set; }
 
         public int CategoryId { get; set; }
         public Category Category { get; set; }
