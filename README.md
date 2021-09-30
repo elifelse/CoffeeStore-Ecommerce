@@ -6,6 +6,7 @@
 
 Install-Package Microsoft.EntityFrameworkCore
 Install-Package Npgsql.EntityFrameworkCore.PostgreSQL
+Install-Package Ardalis.Specification.EntityFrameworkCore
 
 ## ApplicationCore
 
