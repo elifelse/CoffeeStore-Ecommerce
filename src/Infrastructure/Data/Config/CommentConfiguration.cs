@@ -12,10 +12,6 @@ namespace Infrastructure.Data.Config
                 .IsRequired()
                 .HasMaxLength(200);
 
-            builder.HasOne(x => x.Customer)
-                .WithMany()
-                .HasForeignKey(x => x.CustomerId);
-
             builder.HasOne(x => x.Product)
                 .WithMany()
                 .HasForeignKey(x => x.ProductId);

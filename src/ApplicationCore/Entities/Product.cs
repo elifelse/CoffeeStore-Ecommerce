@@ -10,11 +10,8 @@ namespace ApplicationCore.Entities
     {
         public string ProductName { get; set; }
         public string ProductCode { get; set; }
-        public string DescriptionShort { get; set; }
-        public string DescriptionLong { get; set; }
+        public string Description { get; set; }
         public decimal Price { get; set; }
-        public string ProductSKU { get; set; }
-        public int ProductStock { get; set; }
         public string PictureUri { get; set; }
 
         public int CategoryId { get; set; }

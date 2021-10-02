@@ -15,23 +15,12 @@ namespace Infrastructure.Data.Config
             builder.Property(x => x.ProductCode)
                 .IsRequired();
 
-            builder.Property(x => x.DescriptionShort)
+            builder.Property(x => x.Description)
                 .IsRequired()
-                .HasMaxLength(100);
-
-            builder.Property(x => x.DescriptionLong)
-                .IsRequired()
-                .HasMaxLength(200);
+                .HasMaxLength(400);
 
             builder.Property(x => x.Price)
                 .HasColumnType("decimal(18,2)");
-
-            builder.Property(x => x.ProductSKU)
-                .IsRequired()
-                .HasMaxLength(10);
-
-            builder.Property(x => x.ProductStock)
-                .IsRequired();
 
             builder.Property(x => x.PictureUri)
                 .IsRequired();
