@@ -14,7 +14,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="wwwroot\img\about-hero.svg" />
     <None Include="wwwroot\js\bootstrap.bundle.min.js" />
     <None Include="wwwroot\js\custom.js" />
     <None Include="wwwroot\js\jquery-1.11.0.min.js" />
@@ -44,7 +43,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Interfaces\" />
+    <Folder Include="wwwroot\img\Products\" />
   </ItemGroup>
 
 </Project>

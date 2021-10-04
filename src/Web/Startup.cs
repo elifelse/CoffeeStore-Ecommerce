@@ -15,6 +15,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Web.Interfaces;
+using Web.Services;
 
 namespace Web
 {
@@ -35,6 +37,9 @@ namespace Web
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseNpgsql(Configuration.GetConnectionString("ApplicationDbContext")));
             services.AddScoped(typeof(IAsyncRepository<>), typeof(EFRepository<>));
+
+            services.AddScoped<IHomeViewModelService, HomeViewModelService>();
+
             services.AddDatabaseDeveloperPageExceptionFilter();
 
             services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
