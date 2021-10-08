@@ -16,9 +16,9 @@ namespace Web.Controllers
         {
             _productsListViewModelService = productsListViewModelService;
         }
-        public async Task<IActionResult> Index(int? categoryId)
+        public async Task<IActionResult> Index(int? categoryId, int page = 1)
         {
-            return View(await _productsListViewModelService.GetProductsListViewModelAsync(categoryId));
+            return View(await _productsListViewModelService.GetProductsListViewModelAsync(categoryId, page));
         }
     }
 }

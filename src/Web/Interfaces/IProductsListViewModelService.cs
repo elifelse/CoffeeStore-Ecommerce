@@ -8,6 +8,6 @@ namespace Web.Interfaces
 {
     public interface IProductsListViewModelService
     {
-        Task<ProductsListViewModel> GetProductsListViewModelAsync(int? categoryId);
+        Task<ProductsListViewModel> GetProductsListViewModelAsync(int? categoryId, int page);
     }
 }

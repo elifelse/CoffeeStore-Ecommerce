@@ -20,10 +20,15 @@ namespace Web.Services
             _productRepository = productRepository;
             _categoryRepository = categoryRepository;
         }
-        public async Task<ProductsListViewModel> GetProductsListViewModelAsync(int? categoryId)
+        public async Task<ProductsListViewModel> GetProductsListViewModelAsync(int? categoryId, int page)
         {
             var specProducts = new ProductsFilterSpecification(categoryId);
-            var products = await _productRepository.ListAsync(specProducts);
+            var totalItemsCount = await _productRepository.CountAsync(specProducts);
+            var totalPagesCount = (int)Math.Ceiling((decimal)totalItemsCount / Constants.ITEMS_PER_PAGE);
+
+            var specPaginatedProducts = new ProductsFilterPaginatedSpecification(
+                categoryId, (page - 1) * Constants.ITEMS_PER_PAGE, Constants.ITEMS_PER_PAGE);
+            var products = await _productRepository.ListAsync(specPaginatedProducts);
 
             var vm = new ProductsListViewModel()
             {
@@ -36,7 +41,16 @@ namespace Web.Services
                     PictureUri = p.PictureUri
                 }).ToList(),
                 Categories = await GetCategoriesAsync(),
-                CategoryId = categoryId
+                CategoryId = categoryId,
+                PaginationInfo = new PaginationInfoViewModel()
+                {
+                    Page = page,
+                    TotalItems = totalItemsCount,
+                    TotalPages = totalPagesCount,
+                    ItemsOnPage = products.Count,
+                    HasPrevius = page > 1,
+                    HasNext = page < totalPagesCount
+                }
             };
 
             return vm;
