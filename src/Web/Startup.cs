@@ -38,7 +38,7 @@ namespace Web
                 options.UseNpgsql(Configuration.GetConnectionString("ApplicationDbContext")));
             services.AddScoped(typeof(IAsyncRepository<>), typeof(EFRepository<>));
 
-            services.AddScoped<IHomeViewModelService, HomeViewModelService>();
+            services.AddScoped<IProductsListViewModelService, ProductsListViewModelService>();
 
             services.AddDatabaseDeveloperPageExceptionFilter();
 

@@ -12,21 +12,8 @@ namespace Web.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-        private readonly IHomeViewModelService _homeViewModelService;
 
-        public HomeController(ILogger<HomeController> logger, IHomeViewModelService homeViewModelService)
-        {
-            _logger = logger;
-            _homeViewModelService = homeViewModelService;
-        }
-
-        public async Task<IActionResult> Index()
-        {
-            return View(await _homeViewModelService.GetHomeViewModelAsync());
-        }
-
-        public IActionResult Privacy()
+        public IActionResult Index()
         {
             return View();
         }

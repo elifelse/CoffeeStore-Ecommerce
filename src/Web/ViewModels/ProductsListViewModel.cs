@@ -6,13 +6,12 @@ using System.Threading.Tasks;
 
 namespace Web.ViewModels
 {
-    public class HomeViewModel
+    public class ProductsListViewModel
     {
         public int? CategoryId { get; set; }
         public List<ProductViewModel> Products { get; set; }
 
         public IEnumerable<SelectListItem> Categories { get; set; }
-        public IEnumerable<SelectListItem> Brands { get; set; }
         public PaginationInfoViewModel PaginationInfo { get; set; }
     }
 }

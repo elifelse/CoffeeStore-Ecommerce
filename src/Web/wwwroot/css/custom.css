@@ -1,3 +1,22 @@
 /*
 Custom Css
 */
+
+.product-name {
+    height: 2rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+}
+
+.product-image {
+    display: block;
+    transition: all .5s;
+    padding: 1rem;
+}
+
+.product-image:hover {
+    padding: .2rem;
+}

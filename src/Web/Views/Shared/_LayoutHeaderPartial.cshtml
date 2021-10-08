@@ -8,19 +8,18 @@
 
         <div class="align-self-center collapse navbar-collapse d-lg-flex justify-content-lg-between" id="templatemo_main_nav">
 
-                <a class="navbar-brand" href="index.html">
+                <a class="navbar-brand" asp-controller="Home" asp-action="Index">
                     <img src="~/img/BrandLogo/Logo.png" alt="Logo" height="150" />
                 </a>
 
             <div class="flex-fill">
-
                 <ul class="nav navbar-nav d-flex justify-content-between mx-lg-auto">
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">KAHVE</a>
-                        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                            <a class="dropdown-item" href="#">Çekirdek Kahve</a>
-                            <a class="dropdown-item" href="#">Kapsül Kahve</a>
-                            <a class="dropdown-item" href="#">Ekipman</a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" asp-controller="Product" asp-action="Index">Çekirdek Kahve</a>
+                            <a class="dropdown-item" asp-controller="Product" asp-action="Index">Kapsül Kahve</a>
+                            <a class="dropdown-item" asp-controller="Product" asp-action="Index">Ekipman</a>
                         </div>
                     </li>
                     <li class="nav-item">

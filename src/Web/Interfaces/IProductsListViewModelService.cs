@@ -6,8 +6,8 @@ using Web.ViewModels;
 
 namespace Web.Interfaces
 {
-    public interface IHomeViewModelService
+    public interface IProductsListViewModelService
     {
-        Task<HomeViewModel> GetHomeViewModelAsync();
+        Task<ProductsListViewModel> GetProductsListViewModelAsync(int? categoryId);
     }
 }
