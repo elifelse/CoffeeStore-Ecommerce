@@ -45,9 +45,9 @@ namespace Infrastructure.Data
             return await ApplySpecification(spec).FirstOrDefaultAsync();
         }
 
-        public Task<T> FirstOrDefaultAsync(ISpecification<T> spec)
+        public async Task<T> FirstOrDefaultAsync(ISpecification<T> spec)
         {
-            throw new System.NotImplementedException();
+            return await ApplySpecification(spec).FirstOrDefaultAsync();
         }
 
         public async Task<T> GetByIdAsync(int id)

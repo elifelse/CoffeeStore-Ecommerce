@@ -4,13 +4,10 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Web</title>
+    <link href="~/lib/font-awesome/css/all.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link href="~/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/lib/toastr.js/toastr.min.css" rel="stylesheet" />
     <link href="~/css/custom.css" rel="stylesheet" />
-    <link href="~/css/fontawesome.min.css" rel="stylesheet" />
-    <link href="~/css/slick.min.css" rel="stylesheet" />
-    <link href="~/css/slick-theme.min.css" rel="stylesheet" />
-    <link href="~/css/templatemo.min.css" rel="stylesheet" />
 </head>
 <body>
 
@@ -19,12 +16,6 @@
 
             @await Html.PartialAsync("_LayoutHeaderPartial")
         </header>
-
-        
-
-        <main>
-            @RenderBody()
-        </main>
 
         <div class="container">
             <main role="main" class="pb-3">
@@ -39,8 +30,9 @@
         </footer><!-- End .footer -->
     </div><!-- End .page-wrapper -->
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/toastr.js/toastr.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-
+    <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

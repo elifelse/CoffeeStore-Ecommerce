@@ -38,3 +38,7 @@ Custom Css
         height: 100%;
     }
 }
+
+.nav-link {
+    color: black;
+}
