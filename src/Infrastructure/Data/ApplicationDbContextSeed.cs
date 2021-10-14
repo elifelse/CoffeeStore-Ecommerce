@@ -11,9 +11,9 @@ namespace Infrastructure.Data
         {
             if (await dbContext.Categories.AnyAsync() || await dbContext.Products.AnyAsync()) return;
 
-            var cat1 = new Category() { CategoryName = "Mens" };
-            var cat2 = new Category() { CategoryName = "Ladies" };
-            var cat3 = new Category() { CategoryName = "Unisex" };
+            var cat1 = new Category() { CategoryName = "Çekirdek Kahve" };
+            var cat2 = new Category() { CategoryName = "Kapsül Kahve" };
+            var cat3 = new Category() { CategoryName = "Ekipman" };
             dbContext.AddRange(cat1, cat2, cat3);
 
             var p1 = new Product() { ProductName = "Starbucks House Blend Çekirdek Kahve 250 gr", ProductCode = "P001C01", Description = "Ne çok yumuşak, ne de çok yoğun lezzette olan orta derecede kavrulmuş kahvedir,damak zevki ikisinin ortasında olan kahve severler için idealdir. Yumuşak içimli ve dengeli bu kahveyi gün boyunca tercih edebilirsiniz.", Price = 97.46m, PictureUri = "1.jpg", Category = cat1 };

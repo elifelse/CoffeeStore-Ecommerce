@@ -3,11 +3,11 @@ Custom Css
 */
 
 .product-name {
-    height: 2rem;
+    height: 2.6rem;
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
-    -webkit-line-clamp: 3;
+    -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
 }
 
@@ -17,9 +17,9 @@ Custom Css
     padding: 1rem;
 }
 
-.product-image:hover {
-    padding: .2rem;
-}
+    .product-image:hover {
+        padding: .2rem;
+    }
 
 .divider:after,
 .divider:before {
@@ -42,3 +42,15 @@ Custom Css
 .nav-link {
     color: black;
 }
+
+.carousel-item {
+    width: 100%; /*width you want*/
+    height: 400px; /*height you want*/
+    overflow: hidden;
+}
+
+    .carousel-item img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
