@@ -8,7 +8,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Web.Interfaces;
 using Web.ViewModels;
- 
+
 namespace Web.Services
 {
     public class BasketViewModelService : IBasketViewModelService
@@ -39,12 +39,70 @@ namespace Web.Services
             };
         }
 
+        public async Task<NavbarBasketViewModel> GetNavbarBasketViewModelAsync()
+        {
+            return new NavbarBasketViewModel()
+            {
+                ItemsCount = await BasketItemsCountAsync()
+            };
+        }
+
+        // This method doesn't create a basket if non exists.
+        private async Task<int> BasketItemsCountAsync()
+        {
+            var basketId = await GetBasketIdAsync();
+            return basketId.HasValue ? await _basketService.BasketItemsCountAsync(basketId.Value) : 0;
+        }
+
+        public async Task<int> GetOrCreateBasketIdAsync()
+        {
+            string userId = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            // Is there logged in user? 
+            if (!string.IsNullOrEmpty(userId))
+            {
+                // Does user have a basket?
+                var spec = new BasketSpecification(userId);
+                Basket basket = await _basketRepository.FirstOrDefaultAsync(spec);
+                if (basket != null) return basket.Id;
+
+                // If not, create a new basket with logged in user id and return its id.
+                return (await CreateBasketAsync(userId)).Id;
+            }
+
+            // Is there a basket cookie?
+            var anonymousUserId = _httpContextAccessor.HttpContext.Request.Cookies[Constants.BASKET_COOKIENAME];
+            if (anonymousUserId != null)
+            {
+                // Find the basket and return its id.
+                var spec = new BasketSpecification(anonymousUserId);
+                Basket basket = await _basketRepository.FirstOrDefaultAsync(spec);
+
+                if (basket != null) return basket.Id;
+            }
+
+            // If not, create a new basket with anonymous user id and return its id.
+            anonymousUserId = Guid.NewGuid().ToString();
+            _httpContextAccessor.HttpContext.Response.Cookies.Append(Constants.BASKET_COOKIENAME, anonymousUserId, new CookieOptions() { Expires = DateTime.Now.AddMonths(1), IsEssential = true });
+
+            return (await CreateBasketAsync(anonymousUserId)).Id;
+        }
+
+        private async Task<Basket> CreateBasketAsync(string buyerId)
+        {
+            Basket basket = new Basket()
+            {
+                BuyerId = buyerId
+            };
+
+            return await _basketRepository.AddAsync(basket);
+        }
+
         public async Task<BasketViewModel> GetBasketViewModelAsync()
         {
             var basketId = await GetBasketIdAsync();
             var vm = new BasketViewModel();
             if (!basketId.HasValue) return vm;
-
 
             var spec = new BasketWithItemsAndProductsSpecification(basketId.Value);
             var basket = await _basketRepository.FirstOrDefaultAsync(spec);
@@ -62,7 +120,7 @@ namespace Web.Services
             return vm;
         }
 
-        private async Task<int?> GetBasketIdAsync()
+        public async Task<int?> GetBasketIdAsync()
         {
             string userId = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var anonymousUserId = _httpContextAccessor.HttpContext.Request.Cookies[Constants.BASKET_COOKIENAME];
@@ -78,45 +136,6 @@ namespace Web.Services
             }
 
             return null;
-        }
-
-        public async Task<int> GetOrCreateBasketIdAsync()
-        {
-            string userId = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-            if (!string.IsNullOrEmpty(userId))
-            {
-                var spec = new BasketSpecification(userId);
-                Basket basket = await _basketRepository.FirstOrDefaultAsync(spec);
-
-                if (basket != null) return basket.Id;
-
-                return (await CreateBasketIdAsync(userId)).Id;
-            }
-
-            var anonymousUserId = _httpContextAccessor.HttpContext.Request.Cookies[Constants.BASKET_COOKIENAME];
-            if (!string.IsNullOrEmpty(anonymousUserId))
-            {
-                var spec = new BasketSpecification(anonymousUserId);
-                Basket basket = await _basketRepository.FirstOrDefaultAsync(spec);
-                return basket.Id;
-            }
-
-            anonymousUserId = Guid.NewGuid().ToString();
-            _httpContextAccessor.HttpContext.Response.Cookies.Append(Constants.BASKET_COOKIENAME, anonymousUserId, new CookieOptions() { Expires = DateTime.Now.AddMonths(1), IsEssential = true });
-
-
-            return (await CreateBasketIdAsync(anonymousUserId)).Id;
-        }
-
-        private async Task<Basket> CreateBasketIdAsync(string buyerId)
-        {
-            Basket basket = new Basket()
-            {
-                BuyerId = buyerId
-            };
-
-            return await _basketRepository.AddAsync(basket);
         }
     }
 }

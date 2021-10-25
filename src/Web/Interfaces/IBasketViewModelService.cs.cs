@@ -9,7 +9,11 @@ namespace Web.Interfaces
 
         Task<BasketItemAddedViewModel> AddItemToBasketAsync(int productId, int quantity);
 
+        Task<int?> GetBasketIdAsync();
+
         Task<int> GetOrCreateBasketIdAsync();
+
+        Task<NavbarBasketViewModel> GetNavbarBasketViewModelAsync();
 
     }
 }
