@@ -54,3 +54,27 @@ Custom Css
         height: 100%;
         object-fit: cover;
     }
+
+.number-input {
+    height: 100%;
+    width: 50%;
+    font-size: 20px;
+}
+
+    /* Basket Start*/
+    .number-input > .quantity {
+        width: 70px;
+    }
+
+.empty-basket-icon {
+    font-size: 48px;
+}
+/* Basket End*/
+
+.validation-summary-valid {
+    display: none;
+}
+
+.validation-summary-errors > ul {
+    margin-bottom: 0;
+}

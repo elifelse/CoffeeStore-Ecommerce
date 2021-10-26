@@ -3,6 +3,7 @@ using ApplicationCore.Exceptions;
 using ApplicationCore.Interfaces;
 using ApplicationCore.Specifications;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -48,6 +49,75 @@ namespace ApplicationCore.Services
         {
             var spec = new BasketItemsSpecification(basketId);
             return await _basketItemRepository.CountAsync(spec);
+        }
+
+        public async Task DeleteBasketAsync(int basketId)
+        {
+            var basket = await GetBasketWithItemsAsync(basketId);
+
+            await _basketRepository.DeleteAsync(basket);
+        }
+
+        public async Task RemoveBasketItemAsync(int basketId, int basketItemId)
+        {
+            var basket = await GetBasketWithItemsAsync(basketId);
+
+            basket.Items.RemoveAll(x => x.Id == basketItemId);
+            await _basketRepository.UpdateAsync(basket);
+        }
+
+        public async Task SetQuantitiesAsync(int basketId, Dictionary<int, int> quantities)
+        {
+            var basket = await GetBasketWithItemsAsync(basketId);
+
+            foreach (var item in basket.Items)
+            {
+                int newValue;
+                if (quantities.TryGetValue(item.Id, out newValue))
+                {
+                    if (newValue < 1)
+                        throw new ArgumentOutOfRangeException("Quantity must be a positive number.");
+                    item.Quantity = newValue;
+                }
+            }
+            await _basketRepository.UpdateAsync(basket);
+        }
+
+        public async Task TransferBasketAsync(string fromBuyerId, string toBuyerId)
+        {
+            // get fromBuyer basket (if null, return)
+            var spec = new BasketWithItemsSpecification(fromBuyerId);
+            Basket basketFrom = await _basketRepository.FirstOrDefaultAsync(spec);
+            if (basketFrom == null) return;
+
+            // get toBuyer basket (if null, create)
+            var specTo = new BasketWithItemsSpecification(toBuyerId);
+            Basket basketTo = await _basketRepository.FirstOrDefaultAsync(specTo);
+            if (basketTo == null) basketTo = new Basket() { BuyerId = toBuyerId };
+
+            // transfer items
+            foreach (var item in basketFrom.Items)
+            {
+                var targetItem = basketTo.Items.FirstOrDefault(x => x.ProductId == item.ProductId);
+
+                if (targetItem == null)
+                {
+                    basketTo.Items.Add(new BasketItem()
+                    {
+                        ProductId = item.ProductId,
+                        Quantity = item.Quantity
+                    });
+                }
+                else
+                {
+                    targetItem.Quantity += item.Quantity;
+                }
+            }
+
+            await _basketRepository.UpdateAsync(basketTo);
+
+            // delete fromBuyerBasket
+            await _basketRepository.DeleteAsync(basketFrom);
         }
 
         private async Task<Basket> GetBasketWithItemsAsync(int basketId)
