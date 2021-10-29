@@ -36,5 +36,24 @@ namespace Web.Controllers
             TempData["result"] = "UpdateSuccess";
             return RedirectToAction("Index");
         }
+
+        [HttpPost, ValidateAntiForgeryToken]
+        public async Task<IActionResult> RemoveItem(int basketItemId)
+        {
+            int basketId = await _basketViewModelService.GetOrCreateBasketIdAsync();
+            await _basketService.RemoveBasketItemAsync(basketId, basketItemId);
+            TempData["result"] = "RemoveSuccess";
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost, ValidateAntiForgeryToken]
+        public async Task<IActionResult> Delete()
+        {
+            int basketId = await _basketViewModelService.GetOrCreateBasketIdAsync();
+            await _basketService.DeleteBasketAsync(basketId);
+            TempData["result"] = "DeleteSuccess";
+            Response.Cookies.Delete(Constants.BASKET_COOKIENAME);
+            return RedirectToAction("Index");
+        }
     }
 }
